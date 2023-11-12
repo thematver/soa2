@@ -6,18 +6,18 @@ enum MusicGenre {
   swaggerGeneratedUnknown(null),
 
   @JsonValue('HIP_HOP')
-  hipHop('Хип-хоп'),
+  hipHop('HIP_HOP'),
   @JsonValue('BLUES')
-  blues('Блюз'),
+  blues('BLUES'),
   @JsonValue('POST_ROCK')
-  postRock('Пост-рок');
+  postRock('POST_ROCK');
 
   final String? value;
 
   const MusicGenre(this.value);
 }
 
-enum MusicBandsGetOrder {
+enum MusicbandsGetOrder {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -28,5 +28,5 @@ enum MusicBandsGetOrder {
 
   final String? value;
 
-  const MusicBandsGetOrder(this.value);
+  const MusicbandsGetOrder(this.value);
 }

@@ -47,19 +47,19 @@ abstract class Musicband extends ChopperService {
   }
 
   ///Создать группу.
-  Future<chopper.Response<MusicBand?>> musicBandsPost(
+  Future<chopper.Response<MusicBand>> musicbandsPost(
       {required MusicBandWithoutID? body}) {
     generatedMapping.putIfAbsent(MusicBand, () => MusicBand.fromJsonFactory);
 
-    return _musicBandsPost(body: body);
+    return _musicbandsPost(body: body);
   }
 
   ///Создать группу.
   @Post(
-    path: '/music-bands',
+    path: '/musicbands',
     optionalBody: true,
   )
-  Future<chopper.Response<MusicBand?>> _musicBandsPost(
+  Future<chopper.Response<MusicBand>> _musicbandsPost(
       {@Body() required MusicBandWithoutID? body});
 
   ///Получить список групп.
@@ -69,9 +69,9 @@ abstract class Musicband extends ChopperService {
   ///@param filterValue Значение для фильтрации
   ///@param pageSize � азмер страницы для пагинации
   ///@param pageNumber Номер страницы для пагинации
-  Future<chopper.Response<List<MusicBand>>> musicBandsGet({
+  Future<chopper.Response<List<MusicBand>>> musicbandsGet({
     String? sortBy,
-    enums.MusicBandsGetOrder? order,
+    enums.MusicbandsGetOrder? order,
     String? filterBy,
     String? filterValue,
     int? pageSize,
@@ -79,7 +79,7 @@ abstract class Musicband extends ChopperService {
   }) {
     generatedMapping.putIfAbsent(MusicBand, () => MusicBand.fromJsonFactory);
 
-    return _musicBandsGet(
+    return _musicbandsGet(
         sortBy: sortBy,
         order: order?.value?.toString(),
         filterBy: filterBy,
@@ -95,8 +95,8 @@ abstract class Musicband extends ChopperService {
   ///@param filterValue Значение для фильтрации
   ///@param pageSize � азмер страницы для пагинации
   ///@param pageNumber Номер страницы для пагинации
-  @Get(path: '/music-bands')
-  Future<chopper.Response<List<MusicBand>>> _musicBandsGet({
+  @Get(path: '/musicbands')
+  Future<chopper.Response<List<MusicBand>>> _musicbandsGet({
     @Query('sortBy') String? sortBy,
     @Query('order') String? order,
     @Query('filterBy') String? filterBy,
@@ -107,7 +107,7 @@ abstract class Musicband extends ChopperService {
 
   ///Получить группу.
   ///@param id
-  Future<chopper.Response<MusicBand?>> musicbandsIdGet({required int? id}) {
+  Future<chopper.Response<MusicBand>> musicbandsIdGet({required int? id}) {
     generatedMapping.putIfAbsent(MusicBand, () => MusicBand.fromJsonFactory);
 
     return _musicbandsIdGet(id: id);
@@ -116,12 +116,12 @@ abstract class Musicband extends ChopperService {
   ///Получить группу.
   ///@param id
   @Get(path: '/musicbands/{id}')
-  Future<chopper.Response<MusicBand?>> _musicbandsIdGet(
+  Future<chopper.Response<MusicBand>> _musicbandsIdGet(
       {@Path('id') required int? id});
 
   ///Обновить группу.
   ///@param id
-  Future<chopper.Response<MusicBand?>> musicbandsIdPut({
+  Future<chopper.Response<MusicBand>> musicbandsIdPut({
     required int? id,
     required MusicBandWithoutID? body,
   }) {
@@ -136,7 +136,7 @@ abstract class Musicband extends ChopperService {
     path: '/musicbands/{id}',
     optionalBody: true,
   )
-  Future<chopper.Response<MusicBand?>> _musicbandsIdPut({
+  Future<chopper.Response<MusicBand>> _musicbandsIdPut({
     @Path('id') required int? id,
     @Body() required MusicBandWithoutID? body,
   });
@@ -183,6 +183,9 @@ abstract class Musicband extends ChopperService {
   ///@param numberOfParticipants
   Future<chopper.Response<MusicbandsCountGet$Response>> musicbandsCountGet(
       {required int? numberOfParticipants}) {
+    generatedMapping.putIfAbsent(MusicbandsCountGet$Response,
+        () => MusicbandsCountGet$Response.fromJsonFactory);
+
     return _musicbandsCountGet(numberOfParticipants: numberOfParticipants);
   }
 
@@ -287,6 +290,12 @@ class $JsonSerializableConverter extends chopper.JsonConverter {
 
     if (ResultType == String) {
       return response.copyWith();
+    }
+
+    if (ResultType == DateTime) {
+      return response.copyWith(
+          body: DateTime.parse((response.body as String).replaceAll('"', ''))
+              as ResultType);
     }
 
     final jsonRes = await super.convertResponse(response);

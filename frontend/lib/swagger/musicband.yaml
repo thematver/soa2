@@ -10,7 +10,7 @@ info:
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.0.1
 paths:
-  /music-bands:
+  /musicbands:
     post:
       summary: Создать группу.
       requestBody:
@@ -258,6 +258,9 @@ components:
           $ref: '#/components/schemas/MusicGenre'
         studio:
           $ref: '#/components/schemas/Studio'
+        nominatedToGrammy:
+          type: boolean
+          default: false
 
     MusicBandWithoutID:
       type: object
@@ -274,6 +277,9 @@ components:
           $ref: '#/components/schemas/MusicGenre'
         studio:
           $ref: '#/components/schemas/Studio'
+        nominatedToGrammy:
+          type: boolean
+          default: false
 
     Coordinates:
       type: object

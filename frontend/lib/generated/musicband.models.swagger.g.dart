@@ -20,6 +20,7 @@ MusicBand _$MusicBandFromJson(Map<String, dynamic> json) => MusicBand(
       studio: json['studio'] == null
           ? null
           : Studio.fromJson(json['studio'] as Map<String, dynamic>),
+      nominatedToGrammy: json['nominatedToGrammy'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$MusicBandToJson(MusicBand instance) => <String, dynamic>{
@@ -30,6 +31,7 @@ Map<String, dynamic> _$MusicBandToJson(MusicBand instance) => <String, dynamic>{
       'numberOfParticipants': instance.numberOfParticipants,
       'genre': musicGenreNullableToJson(instance.genre),
       'studio': instance.studio?.toJson(),
+      'nominatedToGrammy': instance.nominatedToGrammy,
     };
 
 MusicBandWithoutID _$MusicBandWithoutIDFromJson(Map<String, dynamic> json) =>
@@ -43,6 +45,7 @@ MusicBandWithoutID _$MusicBandWithoutIDFromJson(Map<String, dynamic> json) =>
       studio: json['studio'] == null
           ? null
           : Studio.fromJson(json['studio'] as Map<String, dynamic>),
+      nominatedToGrammy: json['nominatedToGrammy'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$MusicBandWithoutIDToJson(MusicBandWithoutID instance) =>
@@ -52,6 +55,7 @@ Map<String, dynamic> _$MusicBandWithoutIDToJson(MusicBandWithoutID instance) =>
       'numberOfParticipants': instance.numberOfParticipants,
       'genre': musicGenreNullableToJson(instance.genre),
       'studio': instance.studio?.toJson(),
+      'nominatedToGrammy': instance.nominatedToGrammy,
     };
 
 Coordinates _$CoordinatesFromJson(Map<String, dynamic> json) => Coordinates(
