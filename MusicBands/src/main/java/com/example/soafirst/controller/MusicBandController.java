@@ -5,6 +5,7 @@ import com.example.soafirst.storage.entity.Coordinates;
 import com.example.soafirst.storage.entity.MusicBand;
 import com.example.soafirst.storage.entity.Studio;
 import com.example.soafirst.storage.entity.request.MusicBandRequestDTO;
+import com.example.soafirst.storage.entity.response.CountResponseDTO;
 import com.example.soafirst.storage.entity.response.Error;
 import com.example.soafirst.storage.entity.response.MusicBandResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/music-bands")
+@RequestMapping("/musicbands")
 public class MusicBandController {
     @Autowired
     MusicBandService musicBandService;
 
     @GetMapping("")
-    public ResponseEntity<?> getMusicBands() {
-        List<MusicBand> musicBandList = musicBandService.getAllMusicBands();
+    public ResponseEntity<?> getMusicBands(@RequestParam(required = false) String filterBy, @RequestParam(required = false) String filterValue) {
+        List<MusicBand> musicBandList = musicBandService.getAllMusicBands(filterBy, filterValue);
+
         if (musicBandList.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -37,9 +39,9 @@ public class MusicBandController {
                             .build());
         }
 
-        List<MusicBand> musicBands = musicBandList;
 
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(musicBands);
+
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(musicBandList);
     }
 
     @GetMapping("/{id}")
@@ -154,7 +156,7 @@ public class MusicBandController {
     public ResponseEntity<?> countMusicBand(@RequestParam Long numberOfParticipants) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(musicBandService.getCountOfMusicBands(numberOfParticipants));
+                .body(new CountResponseDTO(musicBandService.getCountOfMusicBands(numberOfParticipants)));
     }
 
     private MusicBand fromDTO(MusicBand musicBand, MusicBandRequestDTO musicBandRequestDTO) {
@@ -167,7 +169,7 @@ public class MusicBandController {
         musicBand.setCoordinates(coordinates);
 
         musicBand.setNumberOfParticipants(musicBandRequestDTO.getNumberOfParticipants());
-        musicBand.setGenre(musicBandRequestDTO.getMusicGenre());
+        musicBand.setGenre(musicBandRequestDTO.getGenre());
 
         Studio studio = new Studio();
         if (musicBandRequestDTO.getStudio().getName() != null) {
@@ -189,7 +191,8 @@ public class MusicBandController {
 
         musicBandResponseDTO.setCreationDate(musicBand.getCreationDate());
         musicBandResponseDTO.setNumberOfParticipants(musicBand.getNumberOfParticipants());
-        musicBandResponseDTO.setMusicGenre(musicBand.getGenre());
+        musicBandResponseDTO.setGenre(musicBand.getGenre());
+        musicBandResponseDTO.setNominatedToGrammy(musicBand.isNominatedToGrammy());
 
         MusicBandResponseDTO.StudioResponseDTO studioResponseDTO = new MusicBandResponseDTO.StudioResponseDTO();
         studioResponseDTO.setName(musicBand.getStudio().getName());

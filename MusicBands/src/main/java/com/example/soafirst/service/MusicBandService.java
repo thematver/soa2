@@ -11,6 +11,7 @@ public interface MusicBandService {
 
     void addMusicBand(MusicBand musicBand);
 
+    List<MusicBand> getAllMusicBands(String filterBy, String filterValue);
     List<MusicBand> getAllMusicBands();
 
     Boolean deleteAllByParticipants(Long numberOfParticipants);
@@ -20,4 +21,6 @@ public interface MusicBandService {
     Long getCountOfMusicBands(Long nop);
 
     void updateMusicBand(MusicBand band);
+
+
 }

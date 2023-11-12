@@ -1,11 +1,14 @@
 package com.example.soafirst.service;
 
 import com.example.soafirst.storage.entity.MusicBand;
+import com.example.soafirst.storage.entity.MusicGenre;
+import com.example.soafirst.storage.entity.Studio;
 import com.example.soafirst.storage.repo.MusicBandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -30,6 +33,22 @@ public class MusicBandServiceImpl implements MusicBandService{
     @Override
     public void addMusicBand(MusicBand musicBand) {
         musicBandRepository.save(musicBand);
+    }
+
+    @Override
+    public List<MusicBand> getAllMusicBands(String filterBy, String filterValue) {
+        if (filterBy != null && filterValue != null) {
+            switch (filterBy) {
+                case "name":
+                    return musicBandRepository.findAllByName(filterValue);
+                case "genre":
+                    return musicBandRepository.findAllByGenre(MusicGenre.valueOf(filterValue));
+                case "studio":
+                    return musicBandRepository.findAllByStudio(Studio.builder().name(filterValue).build());
+
+            }
+        }
+        return musicBandRepository.findAll();
     }
 
     @Override
