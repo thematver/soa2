@@ -25,9 +25,11 @@ public class MusicBandResponseDTO {
 
     private Long numberOfParticipants;
 
-    private MusicGenre musicGenre;
+    private MusicGenre genre;
 
     private StudioResponseDTO studio;
+
+    private boolean isNominatedToGrammy;
 
     @Data
     public static class CoordinatesResponsesDTO {

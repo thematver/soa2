@@ -17,7 +17,7 @@ public class MusicBandRequestDTO {
     @NotNull
     @Min(value = 0, message = "NumberOfParticipants should be greater than 0")
     private Long numberOfParticipants;
-    private MusicGenre musicGenre;
+    private MusicGenre genre;
     @NotNull
     private StudioRequestDTO studio;
 
