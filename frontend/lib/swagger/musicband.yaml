@@ -1,0 +1,320 @@
+openapi: 3.0.3
+info:
+  title:  MusicBand
+  description: |-
+   Проект для управления музыкальными группами
+  contact:
+    email: anomatver@yandex.ru
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1
+paths:
+  /music-bands:
+    post:
+      summary: Создать группу.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MusicBandWithoutID'
+      responses:
+        '200':
+          description: Группа успешно создана.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MusicBand'
+        '400':
+            $ref: '#/components/responses/BadRequest'
+    get:
+      summary: Получить список групп.
+      parameters:
+        - name: sortBy
+          in: query
+          required: false
+          description: Поле для сортировки
+          schema:
+            type: string
+        - name: order
+          in: query
+          required: false
+          description: Направление сортировки (asc или desc)
+          schema:
+            type: string
+            enum: [asc, desc]
+        - name: filterBy
+          in: query
+          required: false
+          description: Поле для фильтрации
+          schema:
+            type: string
+        - name: filterValue
+          in: query
+          required: false
+          description: Значение для фильтрации
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          required: false
+          description: � азмер страницы для пагинации
+          schema:
+            type: integer
+        - name: pageNumber
+          in: query
+          required: false
+          description: Номер страницы для пагинации
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешное получение списка групп.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MusicBand'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+
+  /musicbands/{id}:
+    get:
+      summary: Получить группу.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешное получение группы.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MusicBand'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      summary: Обновить группу.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MusicBandWithoutID'
+      responses:
+        '200':
+          description: Группа успешно обновлена.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MusicBand'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Удалить группу по айди.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Группа успешно удалена.
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /musicbands/filter:
+    delete:
+      summary: Удалить все объекты с заданным значением numberOfParticipants.
+      parameters:
+        - name: numberOfParticipants
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Объекты удалены.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /musicbands/filter/first:
+    delete:
+      summary: Удалить один объект с заданным значением numberOfParticipants.
+      parameters:
+        - name: numberOfParticipants
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Объект удален.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /musicbands/count:
+    get:
+      summary: Получить количество объектов с заданным значением numberOfParticipants.
+      parameters:
+        - name: numberOfParticipants
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешно получено количество объектов.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+
+  /grammy/bands/get-by-genre/{genre}:
+    get:
+      summary: Получить список групп по жанру.
+      parameters:
+        - name: genre
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/MusicGenre'
+      responses:
+        '200':
+          description: Успешно получен список групп.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MusicBand'
+
+  /grammy/band/{band-id}/nominate/{genre}:
+    post:
+      summary: Номинировать группу на премию.
+      parameters:
+        - name: band-id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: genre
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/MusicGenre'
+      responses:
+        '201':
+          description: Группа номинирована.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+
+components:
+  schemas:
+    MusicBand:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        name:
+          type: string
+          minLength: 1
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        creationDate:
+          type: string
+          format: date
+          readOnly: true
+        numberOfParticipants:
+          type: integer
+          minimum: 1
+        genre:
+          $ref: '#/components/schemas/MusicGenre'
+        studio:
+          $ref: '#/components/schemas/Studio'
+
+    MusicBandWithoutID:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        coordinates:
+          $ref: '#/components/schemas/Coordinates'
+        numberOfParticipants:
+          type: integer
+          minimum: 1
+        genre:
+          $ref: '#/components/schemas/MusicGenre'
+        studio:
+          $ref: '#/components/schemas/Studio'
+
+    Coordinates:
+      type: object
+      properties:
+        x:
+          type: number
+        y:
+          type: number
+          minimum: -298
+
+    MusicGenre:
+      type: string
+      enum: [HIP_HOP, BLUES, POST_ROCK]
+
+    Studio:
+      type: object
+      properties:
+        name:
+          type: string
+          
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+        errorMessage:
+          type: string
+      required:
+        - errorCode
+        - errorMessage
+        
+  responses:
+    BadRequest:
+      description: Некорректный ввод
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: Объект не найден
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
