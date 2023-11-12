@@ -17,9 +17,9 @@ final class _$Musicband extends Musicband {
   final definitionType = Musicband;
 
   @override
-  Future<Response<MusicBand>> _musicBandsPost(
+  Future<Response<MusicBand>> _musicbandsPost(
       {required MusicBandWithoutID? body}) {
-    final Uri $url = Uri.parse('/music-bands');
+    final Uri $url = Uri.parse('/musicbands');
     final $body = body;
     final Request $request = Request(
       'POST',
@@ -31,7 +31,7 @@ final class _$Musicband extends Musicband {
   }
 
   @override
-  Future<Response<List<MusicBand>>> _musicBandsGet({
+  Future<Response<List<MusicBand>>> _musicbandsGet({
     String? sortBy,
     String? order,
     String? filterBy,
@@ -39,7 +39,7 @@ final class _$Musicband extends Musicband {
     int? pageSize,
     int? pageNumber,
   }) {
-    final Uri $url = Uri.parse('/music-bands');
+    final Uri $url = Uri.parse('/musicbands');
     final Map<String, dynamic> $params = <String, dynamic>{
       'sortBy': sortBy,
       'order': order,

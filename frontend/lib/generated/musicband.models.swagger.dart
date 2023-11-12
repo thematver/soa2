@@ -18,6 +18,7 @@ class MusicBand {
     this.numberOfParticipants,
     this.genre,
     this.studio,
+    this.nominatedToGrammy,
   });
 
   factory MusicBand.fromJson(Map<String, dynamic> json) =>
@@ -44,6 +45,8 @@ class MusicBand {
   final enums.MusicGenre? genre;
   @JsonKey(name: 'studio')
   final Studio? studio;
+  @JsonKey(name: 'nominatedToGrammy', defaultValue: false)
+  final bool? nominatedToGrammy;
   static const fromJsonFactory = _$MusicBandFromJson;
 
   @override
@@ -66,7 +69,10 @@ class MusicBand {
             (identical(other.genre, genre) ||
                 const DeepCollectionEquality().equals(other.genre, genre)) &&
             (identical(other.studio, studio) ||
-                const DeepCollectionEquality().equals(other.studio, studio)));
+                const DeepCollectionEquality().equals(other.studio, studio)) &&
+            (identical(other.nominatedToGrammy, nominatedToGrammy) ||
+                const DeepCollectionEquality()
+                    .equals(other.nominatedToGrammy, nominatedToGrammy)));
   }
 
   @override
@@ -81,6 +87,7 @@ class MusicBand {
       const DeepCollectionEquality().hash(numberOfParticipants) ^
       const DeepCollectionEquality().hash(genre) ^
       const DeepCollectionEquality().hash(studio) ^
+      const DeepCollectionEquality().hash(nominatedToGrammy) ^
       runtimeType.hashCode;
 }
 
@@ -92,7 +99,8 @@ extension $MusicBandExtension on MusicBand {
       DateTime? creationDate,
       int? numberOfParticipants,
       enums.MusicGenre? genre,
-      Studio? studio}) {
+      Studio? studio,
+      bool? nominatedToGrammy}) {
     return MusicBand(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -100,7 +108,8 @@ extension $MusicBandExtension on MusicBand {
         creationDate: creationDate ?? this.creationDate,
         numberOfParticipants: numberOfParticipants ?? this.numberOfParticipants,
         genre: genre ?? this.genre,
-        studio: studio ?? this.studio);
+        studio: studio ?? this.studio,
+        nominatedToGrammy: nominatedToGrammy ?? this.nominatedToGrammy);
   }
 
   MusicBand copyWithWrapped(
@@ -110,7 +119,8 @@ extension $MusicBandExtension on MusicBand {
       Wrapped<DateTime?>? creationDate,
       Wrapped<int?>? numberOfParticipants,
       Wrapped<enums.MusicGenre?>? genre,
-      Wrapped<Studio?>? studio}) {
+      Wrapped<Studio?>? studio,
+      Wrapped<bool?>? nominatedToGrammy}) {
     return MusicBand(
         id: (id != null ? id.value : this.id),
         name: (name != null ? name.value : this.name),
@@ -122,7 +132,10 @@ extension $MusicBandExtension on MusicBand {
             ? numberOfParticipants.value
             : this.numberOfParticipants),
         genre: (genre != null ? genre.value : this.genre),
-        studio: (studio != null ? studio.value : this.studio));
+        studio: (studio != null ? studio.value : this.studio),
+        nominatedToGrammy: (nominatedToGrammy != null
+            ? nominatedToGrammy.value
+            : this.nominatedToGrammy));
   }
 }
 
@@ -134,6 +147,7 @@ class MusicBandWithoutID {
     this.numberOfParticipants,
     this.genre,
     this.studio,
+    this.nominatedToGrammy,
   });
 
   factory MusicBandWithoutID.fromJson(Map<String, dynamic> json) =>
@@ -156,6 +170,8 @@ class MusicBandWithoutID {
   final enums.MusicGenre? genre;
   @JsonKey(name: 'studio')
   final Studio? studio;
+  @JsonKey(name: 'nominatedToGrammy', defaultValue: false)
+  final bool? nominatedToGrammy;
   static const fromJsonFactory = _$MusicBandWithoutIDFromJson;
 
   @override
@@ -173,7 +189,10 @@ class MusicBandWithoutID {
             (identical(other.genre, genre) ||
                 const DeepCollectionEquality().equals(other.genre, genre)) &&
             (identical(other.studio, studio) ||
-                const DeepCollectionEquality().equals(other.studio, studio)));
+                const DeepCollectionEquality().equals(other.studio, studio)) &&
+            (identical(other.nominatedToGrammy, nominatedToGrammy) ||
+                const DeepCollectionEquality()
+                    .equals(other.nominatedToGrammy, nominatedToGrammy)));
   }
 
   @override
@@ -186,6 +205,7 @@ class MusicBandWithoutID {
       const DeepCollectionEquality().hash(numberOfParticipants) ^
       const DeepCollectionEquality().hash(genre) ^
       const DeepCollectionEquality().hash(studio) ^
+      const DeepCollectionEquality().hash(nominatedToGrammy) ^
       runtimeType.hashCode;
 }
 
@@ -195,13 +215,15 @@ extension $MusicBandWithoutIDExtension on MusicBandWithoutID {
       Coordinates? coordinates,
       int? numberOfParticipants,
       enums.MusicGenre? genre,
-      Studio? studio}) {
+      Studio? studio,
+      bool? nominatedToGrammy}) {
     return MusicBandWithoutID(
         name: name ?? this.name,
         coordinates: coordinates ?? this.coordinates,
         numberOfParticipants: numberOfParticipants ?? this.numberOfParticipants,
         genre: genre ?? this.genre,
-        studio: studio ?? this.studio);
+        studio: studio ?? this.studio,
+        nominatedToGrammy: nominatedToGrammy ?? this.nominatedToGrammy);
   }
 
   MusicBandWithoutID copyWithWrapped(
@@ -209,7 +231,8 @@ extension $MusicBandWithoutIDExtension on MusicBandWithoutID {
       Wrapped<Coordinates?>? coordinates,
       Wrapped<int?>? numberOfParticipants,
       Wrapped<enums.MusicGenre?>? genre,
-      Wrapped<Studio?>? studio}) {
+      Wrapped<Studio?>? studio,
+      Wrapped<bool?>? nominatedToGrammy}) {
     return MusicBandWithoutID(
         name: (name != null ? name.value : this.name),
         coordinates:
@@ -218,7 +241,10 @@ extension $MusicBandWithoutIDExtension on MusicBandWithoutID {
             ? numberOfParticipants.value
             : this.numberOfParticipants),
         genre: (genre != null ? genre.value : this.genre),
-        studio: (studio != null ? studio.value : this.studio));
+        studio: (studio != null ? studio.value : this.studio),
+        nominatedToGrammy: (nominatedToGrammy != null
+            ? nominatedToGrammy.value
+            : this.nominatedToGrammy));
   }
 }
 
@@ -474,70 +500,70 @@ List<enums.MusicGenre>? musicGenreNullableListFromJson(
   return musicGenre.map((e) => musicGenreFromJson(e.toString())).toList();
 }
 
-String? musicBandsGetOrderNullableToJson(
-    enums.MusicBandsGetOrder? musicBandsGetOrder) {
-  return musicBandsGetOrder?.value;
+String? musicbandsGetOrderNullableToJson(
+    enums.MusicbandsGetOrder? musicbandsGetOrder) {
+  return musicbandsGetOrder?.value;
 }
 
-String? musicBandsGetOrderToJson(enums.MusicBandsGetOrder musicBandsGetOrder) {
-  return musicBandsGetOrder.value;
+String? musicbandsGetOrderToJson(enums.MusicbandsGetOrder musicbandsGetOrder) {
+  return musicbandsGetOrder.value;
 }
 
-enums.MusicBandsGetOrder musicBandsGetOrderFromJson(
-  Object? musicBandsGetOrder, [
-  enums.MusicBandsGetOrder? defaultValue,
+enums.MusicbandsGetOrder musicbandsGetOrderFromJson(
+  Object? musicbandsGetOrder, [
+  enums.MusicbandsGetOrder? defaultValue,
 ]) {
-  return enums.MusicBandsGetOrder.values.firstWhereOrNull((e) =>
+  return enums.MusicbandsGetOrder.values.firstWhereOrNull((e) =>
           e.value.toString().toLowerCase() ==
-          musicBandsGetOrder?.toString().toLowerCase()) ??
+          musicbandsGetOrder?.toString().toLowerCase()) ??
       defaultValue ??
-      enums.MusicBandsGetOrder.swaggerGeneratedUnknown;
+      enums.MusicbandsGetOrder.swaggerGeneratedUnknown;
 }
 
-enums.MusicBandsGetOrder? musicBandsGetOrderNullableFromJson(
-  Object? musicBandsGetOrder, [
-  enums.MusicBandsGetOrder? defaultValue,
+enums.MusicbandsGetOrder? musicbandsGetOrderNullableFromJson(
+  Object? musicbandsGetOrder, [
+  enums.MusicbandsGetOrder? defaultValue,
 ]) {
-  if (musicBandsGetOrder == null) {
+  if (musicbandsGetOrder == null) {
     return null;
   }
-  return enums.MusicBandsGetOrder.values
-          .firstWhereOrNull((e) => e.value == musicBandsGetOrder) ??
+  return enums.MusicbandsGetOrder.values
+          .firstWhereOrNull((e) => e.value == musicbandsGetOrder) ??
       defaultValue;
 }
 
-List<String> musicBandsGetOrderListToJson(
-    List<enums.MusicBandsGetOrder>? musicBandsGetOrder) {
-  if (musicBandsGetOrder == null) {
+List<String> musicbandsGetOrderListToJson(
+    List<enums.MusicbandsGetOrder>? musicbandsGetOrder) {
+  if (musicbandsGetOrder == null) {
     return [];
   }
 
-  return musicBandsGetOrder.map((e) => e.value!).toList();
+  return musicbandsGetOrder.map((e) => e.value!).toList();
 }
 
-List<enums.MusicBandsGetOrder> musicBandsGetOrderListFromJson(
-  List? musicBandsGetOrder, [
-  List<enums.MusicBandsGetOrder>? defaultValue,
+List<enums.MusicbandsGetOrder> musicbandsGetOrderListFromJson(
+  List? musicbandsGetOrder, [
+  List<enums.MusicbandsGetOrder>? defaultValue,
 ]) {
-  if (musicBandsGetOrder == null) {
+  if (musicbandsGetOrder == null) {
     return defaultValue ?? [];
   }
 
-  return musicBandsGetOrder
-      .map((e) => musicBandsGetOrderFromJson(e.toString()))
+  return musicbandsGetOrder
+      .map((e) => musicbandsGetOrderFromJson(e.toString()))
       .toList();
 }
 
-List<enums.MusicBandsGetOrder>? musicBandsGetOrderNullableListFromJson(
-  List? musicBandsGetOrder, [
-  List<enums.MusicBandsGetOrder>? defaultValue,
+List<enums.MusicbandsGetOrder>? musicbandsGetOrderNullableListFromJson(
+  List? musicbandsGetOrder, [
+  List<enums.MusicbandsGetOrder>? defaultValue,
 ]) {
-  if (musicBandsGetOrder == null) {
+  if (musicbandsGetOrder == null) {
     return defaultValue;
   }
 
-  return musicBandsGetOrder
-      .map((e) => musicBandsGetOrderFromJson(e.toString()))
+  return musicbandsGetOrder
+      .map((e) => musicbandsGetOrderFromJson(e.toString()))
       .toList();
 }
 
