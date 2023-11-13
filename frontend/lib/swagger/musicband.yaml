@@ -210,7 +210,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/MusicBand'
 
-  /grammy/band/{band-id}/nominate/{genre}:
+  /grammy/bands/{band-id}/nominate/{genre}:
     post:
       summary: Номинировать группу на премию.
       parameters:

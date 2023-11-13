@@ -157,11 +157,11 @@ final class _$Musicband extends Musicband {
   }
 
   @override
-  Future<Response<dynamic>> _grammyBandBandIdNominateGenrePost({
+  Future<Response<dynamic>> _grammyBandsBandIdNominateGenrePost({
     required int? bandId,
     required String? genre,
   }) {
-    final Uri $url = Uri.parse('/grammy/band/${bandId}/nominate/${genre}');
+    final Uri $url = Uri.parse('/grammy/bands/${bandId}/nominate/${genre}');
     final Request $request = Request(
       'POST',
       $url,

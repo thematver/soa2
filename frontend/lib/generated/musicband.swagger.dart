@@ -213,11 +213,11 @@ abstract class Musicband extends ChopperService {
   ///Номинировать группу на премию.
   ///@param band-id
   ///@param genre
-  Future<chopper.Response> grammyBandBandIdNominateGenrePost({
+  Future<chopper.Response> grammyBandsBandIdNominateGenrePost({
     required int? bandId,
     required enums.MusicGenre? genre,
   }) {
-    return _grammyBandBandIdNominateGenrePost(
+    return _grammyBandsBandIdNominateGenrePost(
         bandId: bandId, genre: genre?.value?.toString());
   }
 
@@ -225,10 +225,10 @@ abstract class Musicband extends ChopperService {
   ///@param band-id
   ///@param genre
   @Post(
-    path: '/grammy/band/{band-id}/nominate/{genre}',
+    path: '/grammy/bands/{band-id}/nominate/{genre}',
     optionalBody: true,
   )
-  Future<chopper.Response> _grammyBandBandIdNominateGenrePost({
+  Future<chopper.Response> _grammyBandsBandIdNominateGenrePost({
     @Path('band-id') required int? bandId,
     @Path('genre') required String? genre,
   });
