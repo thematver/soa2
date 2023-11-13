@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Music Bands',
+      title: 'Музыкальные группы',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const BandsListPage(title: 'Music Bands'),
+      home: const BandsListPage(title: 'Музыкальные группы'),
     );
   }
 }
