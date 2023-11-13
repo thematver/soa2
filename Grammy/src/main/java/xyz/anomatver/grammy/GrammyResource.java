@@ -14,6 +14,7 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class GrammyResource {
     public List<MusicBand> getByGenre(@PathParam("genre") String genre) throws JsonProcessingException {
         Client client = ClientBuilder.newClient();
 
-        Response response = client.target("http://0.0.0.0:8080/music-bands")
+        Response response = client.target("http://0.0.0.0:8080/musicbands?filterBy=genre&filterValue="+genre)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
 
@@ -39,7 +40,7 @@ public class GrammyResource {
             });
 
             return bands.stream()
-                    .filter(band -> genre.equalsIgnoreCase(band.getMusicGenre()))
+                    .filter(MusicBand::isNominatedToGrammy)
                     .collect(Collectors.toList());
         } else {
             throw new WebApplicationException("Failed to fetch data from Spring service", response.getStatus());
@@ -53,7 +54,7 @@ public class GrammyResource {
         Client client = ClientBuilder.newClient();
 
         // Fetch the band
-        Response response = client.target("http://0.0.0.0:8080/music-bands/" + id)
+        Response response = client.target("http://0.0.0.0:8080/musicbands/" + id)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
 
@@ -65,6 +66,7 @@ public class GrammyResource {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 
         MusicBand band = mapper.readValue(jsonResponse, MusicBand.class);
 
@@ -75,7 +77,7 @@ public class GrammyResource {
         String jsonRequest = mapper.writeValueAsString(band);
 
         // Send a PUT request to update the band
-        Response updateResponse = client.target("http://0.0.0.0:8080/music-bands/" + id)
+        Response updateResponse = client.target("http://0.0.0.0:8080/musicbands/" + id)
                 .request(MediaType.APPLICATION_JSON)
                 .put(Entity.entity(jsonRequest, MediaType.APPLICATION_JSON));
 
