@@ -26,7 +26,7 @@ public class GrammyResource {
     public List<MusicBand> getByGenre(@PathParam("genre") String genre) throws JsonProcessingException {
         Client client = ClientBuilder.newClient();
 
-        Response response = client.target("http://0.0.0.0:8080/musicbands?filterBy=genre&filterValue="+genre)
+        Response response = client.target("https://localhost:8444/soa-first-0.0.1-SNAPSHOT/musicbands?filterBy=genre&filterValue="+genre)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
 
@@ -54,7 +54,7 @@ public class GrammyResource {
         Client client = ClientBuilder.newClient();
 
         // Fetch the band
-        Response response = client.target("http://0.0.0.0:8080/musicbands/" + id)
+        Response response = client.target("https://localhost:8444/soa-first-0.0.1-SNAPSHOT/musicbands/" + id)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
 
@@ -77,7 +77,7 @@ public class GrammyResource {
         String jsonRequest = mapper.writeValueAsString(band);
 
         // Send a PUT request to update the band
-        Response updateResponse = client.target("http://0.0.0.0:8080/musicbands/" + id)
+        Response updateResponse = client.target("https://localhost:8444/soa-first-0.0.1-SNAPSHOT/musicbands/" + id)
                 .request(MediaType.APPLICATION_JSON)
                 .put(Entity.entity(jsonRequest, MediaType.APPLICATION_JSON));
 

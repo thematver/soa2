@@ -23,8 +23,8 @@ class _BandsListPageState extends State<BandsListPage> {
     methodCount: 0,
   ),);
   var client = Musicband.create(
-      baseUrl: Uri.parse("http://0.0.0.0:8080"));
-  final grammyClient = Musicband.create(baseUrl: Uri.parse("http://0.0.0.0:8081/Grammy-1.0-SNAPSHOT"));
+      baseUrl: Uri.parse("https://localhost:8444/soa-first-0.0.1-SNAPSHOT"));
+  final grammyClient = Musicband.create(baseUrl: Uri.parse("https://localhost:6367/Grammy_war"));
   Future<List<MusicBand>>? futureBands;
   TextEditingController numberOfParticipantsController = TextEditingController();
   MusicGenre? selectedGenre;

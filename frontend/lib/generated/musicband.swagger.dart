@@ -42,7 +42,7 @@ abstract class Musicband extends ChopperService {
         interceptors: interceptors ?? [],
         client: httpClient,
         authenticator: authenticator,
-        baseUrl: baseUrl ?? Uri.parse('http://'));
+        baseUrl: baseUrl ?? Uri.parse('https://'));
     return _$Musicband(newClient);
   }
 
