@@ -1,12 +1,15 @@
 package com.example.soafirst.storage.repo;
 
-import com.example.soafirst.storage.entity.Coordinates;
 import com.example.soafirst.storage.entity.MusicBand;
 import com.example.soafirst.storage.entity.MusicGenre;
-import com.example.soafirst.storage.entity.Studio;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MusicBandRepository extends JpaRepository<MusicBand, Long> {
     List<MusicBand> findAllById(Long id);
@@ -18,13 +21,4 @@ public interface MusicBandRepository extends JpaRepository<MusicBand, Long> {
     List<MusicBand> findAllByNumberOfParticipants(Long numberOfParticipants);
 
     Long countMusicBandByNumberOfParticipants(Long numberOfParticipants);
-
-    List<MusicBand> findAllByGenre(MusicGenre genre);
-
-
-    List<MusicBand> findAllByCoordinates(Coordinates coordinates);
-
-    List<MusicBand> findAllByStudio(Studio studio);
-
-    List<MusicBand> findAllByName(String name);
 }

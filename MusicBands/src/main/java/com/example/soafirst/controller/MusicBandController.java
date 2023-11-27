@@ -5,8 +5,8 @@ import com.example.soafirst.storage.entity.Coordinates;
 import com.example.soafirst.storage.entity.MusicBand;
 import com.example.soafirst.storage.entity.Studio;
 import com.example.soafirst.storage.entity.request.MusicBandRequestDTO;
-import com.example.soafirst.storage.entity.response.CountResponseDTO;
 import com.example.soafirst.storage.entity.response.Error;
+import com.example.soafirst.storage.entity.response.MusicBandPageableResponseDTO;
 import com.example.soafirst.storage.entity.response.MusicBandResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,35 +14,17 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/musicbands")
+@RequestMapping("/music-bands")
 public class MusicBandController {
     @Autowired
     MusicBandService musicBandService;
-
-    @GetMapping("")
-    public ResponseEntity<?> getMusicBands(@RequestParam(required = false) String filterBy, @RequestParam(required = false) String filterValue) {
-        List<MusicBand> musicBandList = musicBandService.getAllMusicBands(filterBy, filterValue);
-
-        if (musicBandList.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(Error.builder()
-                            .message("No MusicBands are here.")
-                            .code(String.valueOf(HttpStatus.NOT_FOUND.value()))
-                            .build());
-        }
-
-
-
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(musicBandList);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getMusicBandById(@PathVariable Long id) {
@@ -127,7 +109,7 @@ public class MusicBandController {
 
         MusicBand musicBand = musicBandList.get(0);
 
-        musicBandService.updateMusicBand(fromDTO(musicBand, musicBandRequestDTO));
+        musicBandService.addMusicBand(fromDTO(musicBand, musicBandRequestDTO));
 
         MusicBandResponseDTO musicBandResponseDTO = new MusicBandResponseDTO();
         toDTO(musicBand, musicBandResponseDTO);
@@ -156,11 +138,45 @@ public class MusicBandController {
     public ResponseEntity<?> countMusicBand(@RequestParam Long numberOfParticipants) {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new CountResponseDTO(musicBandService.getCountOfMusicBands(numberOfParticipants)));
+                .body(musicBandService.getCountOfMusicBands(numberOfParticipants));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> findAllMusicBandByPage(HttpServletRequest httpServletRequest) {
+        Integer page;
+        Integer limit;
+        if (httpServletRequest.getParameter("page") == null) {
+            page = 1;
+        }
+        else {
+            page = Integer.parseInt(httpServletRequest.getParameter("page"));
+        }
+        if (httpServletRequest.getParameter("limit") == null) {
+            limit = 2;
+        }
+        else {
+            limit = Integer.parseInt(httpServletRequest.getParameter("limit"));
+        }
+        List<MusicBand> musicBandList = musicBandService.findAll(httpServletRequest, page, limit);
+        MusicBandPageableResponseDTO musicBandPageableResponseDTO = new MusicBandPageableResponseDTO();
+        toPageableDTO(musicBandList, musicBandPageableResponseDTO, page);
+        return ResponseEntity.ok(musicBandPageableResponseDTO);
+    }
+
+    private void toPageableDTO(List<MusicBand> musicBandList, MusicBandPageableResponseDTO musicBandPageableResponseDTO, Integer page) {
+        List<MusicBandResponseDTO> musicBandResponseDTOList = new ArrayList<>();
+
+        for (MusicBand mb: musicBandList) {
+            MusicBandResponseDTO musicBandResponseDTO = new MusicBandResponseDTO();
+            toDTO(mb, musicBandResponseDTO);
+            musicBandResponseDTOList.add(musicBandResponseDTO);
+        }
+
+        musicBandPageableResponseDTO.setMusicBandResponseDTOList(musicBandResponseDTOList);
+        musicBandPageableResponseDTO.setPageNumber(page);
     }
 
     private MusicBand fromDTO(MusicBand musicBand, MusicBandRequestDTO musicBandRequestDTO) {
-
         musicBand.setName(musicBandRequestDTO.getName());
 
         Coordinates coordinates = new Coordinates();
@@ -169,14 +185,14 @@ public class MusicBandController {
         musicBand.setCoordinates(coordinates);
 
         musicBand.setNumberOfParticipants(musicBandRequestDTO.getNumberOfParticipants());
-        musicBand.setGenre(musicBandRequestDTO.getGenre());
+        musicBand.setMusicGenre(musicBandRequestDTO.getMusicGenre());
 
         Studio studio = new Studio();
         if (musicBandRequestDTO.getStudio().getName() != null) {
             studio.setName(musicBandRequestDTO.getStudio().getName());
         }
         musicBand.setStudio(studio);
-        musicBand.setNominatedToGrammy(musicBandRequestDTO.isNominatedToGrammy());
+
         return musicBand;
     }
 
@@ -191,8 +207,7 @@ public class MusicBandController {
 
         musicBandResponseDTO.setCreationDate(musicBand.getCreationDate());
         musicBandResponseDTO.setNumberOfParticipants(musicBand.getNumberOfParticipants());
-        musicBandResponseDTO.setGenre(musicBand.getGenre());
-        musicBandResponseDTO.setNominatedToGrammy(musicBand.isNominatedToGrammy());
+        musicBandResponseDTO.setMusicGenre(musicBand.getMusicGenre());
 
         MusicBandResponseDTO.StudioResponseDTO studioResponseDTO = new MusicBandResponseDTO.StudioResponseDTO();
         studioResponseDTO.setName(musicBand.getStudio().getName());

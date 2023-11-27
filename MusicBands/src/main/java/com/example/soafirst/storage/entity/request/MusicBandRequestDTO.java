@@ -2,7 +2,6 @@ package com.example.soafirst.storage.entity.request;
 
 import com.example.soafirst.storage.entity.MusicGenre;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -17,12 +16,10 @@ public class MusicBandRequestDTO {
     @NotNull
     @Min(value = 0, message = "NumberOfParticipants should be greater than 0")
     private Long numberOfParticipants;
-    private MusicGenre genre;
+    private MusicGenre musicGenre;
     @NotNull
     private StudioRequestDTO studio;
 
-
-    private boolean nominatedToGrammy;
 
     @Data
     public static class CoordinatesRequestDTO {
